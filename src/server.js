@@ -16,6 +16,7 @@
 
  server.set('view engine','pug');
  server.set('views',PATH.join(__dirname,'views'));
+ server.use(EXPRESS.static(PATH.join(__dirname,'public')));
  server.use(EXPRESS.json());
  server.use(EXPRESS.urlencoded({extended:true}));
 
