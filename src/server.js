@@ -8,12 +8,14 @@
  const FS       = require('fs');
  const HTTPS    = require('https');
  const IP       = require('ip');
+ const PATH     = require('path');
  const APP      = require('./app/app');
  const CONFIG   = require('./config/config');
  const logger   = require('./config/logger');
  const server   = EXPRESS();
 
-
+ server.set('view engine','pug');
+ server.set('views',PATH.join(__dirname,'views'));
  server.use(EXPRESS.json());
  server.use(EXPRESS.urlencoded({extended:true}));
 
