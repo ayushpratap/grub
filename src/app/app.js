@@ -8,6 +8,7 @@ ROUTER.get('/',(req,res)=>{
 
     //res.send("Hello");
     res.render("homepage",{
+        name:'Ayush',
         siteName: 'Grub'
     });
 });
