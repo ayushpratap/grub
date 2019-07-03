@@ -18,8 +18,7 @@
   },
   "devDependencies": {},
   "nodemonConfig":{
-    "ignore":["logs/*"],
-    "delay":"2500"
+    "ignore":["logs/*"]
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
