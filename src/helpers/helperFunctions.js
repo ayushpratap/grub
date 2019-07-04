@@ -2,7 +2,7 @@
 
 require('magic-globals');
 const gConfig = require('../config/config');
-const logger = require('../config/logger');
+const logger = require('./logger');
 const check = require('check-types');
 const EXIT = 'Exit the application :';
 

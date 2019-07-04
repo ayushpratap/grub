@@ -6,7 +6,7 @@ const check = require('check-types');
 const bcryptjs = require('bcryptjs');
 
 //  Require application components
-const logger = require('../config/logger');
+const logger = require('../helpers/logger');
 const User = require('../models/User');
 
 const FILE = __file;
