@@ -6,11 +6,14 @@ const ROUTER = EXPRESS.Router();
 ROUTER.get('/',(req,res)=>{
     LOGGER.info("[%s] , Request received at ROUTER.get('/')",__file);
 
-    //res.send("Hello");
-    res.render("homepage",{
+    res
+        .status(200)
+        .send("Hello")
+        .end();
+    /*res.render("homepage",{
         name:'Ayush',
         siteName: 'Grub'
-    });
+    });*/
 });
 
 ROUTER.post('/register',(req,res)=>{
