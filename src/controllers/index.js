@@ -1,7 +1,7 @@
 'use-strict';
 
 require('magic-globals');
-const logger = require('../config/logger');
+const logger = require('../helpers/logger');
 
 module.exports = function(req, res) {
   const FUNC = 'index';

@@ -1,6 +1,6 @@
 'use-strict';
 require('magic-globals');
-const logger = require('../config/logger');
+const logger = require('../helpers/logger');
 const userModel = require('../models/User');
 const FILE = __file;
 

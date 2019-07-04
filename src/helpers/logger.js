@@ -1,5 +1,5 @@
 'use-strict';
-const gConfig = require('./config');
+const gConfig = require('../config/config');
 const winston = require('winston');
 const fs = require('fs');
 const appRoot = require('app-root-path');

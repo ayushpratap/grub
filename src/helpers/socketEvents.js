@@ -2,7 +2,7 @@
 require('magic-globals');
 
 //  Get the logger instance
-const logger = require('../config/logger');
+const logger = require('./logger');
 const FILE = __file;
 
 module.exports.onConnection = function(io) {

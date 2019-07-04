@@ -21,7 +21,7 @@ const favicon = require('express-favicon');
 //  Require application modules
 const helper = require('./helpers/helperFunctions');
 const gConfig = require('./config/config');
-const logger = require('./config/logger');
+const logger = require('./helpers/logger');
 const socketEvents = require('./helpers/socketEvents');
 
 //  Get the routes
@@ -39,16 +39,14 @@ helper.checkSessionSecret();
 helper.checkDbUrl();
 
 //  Connect to database
-mongoose.connect(gConfig.dbUrl, {
-  useCreateIndex: true,
-  useNewUrlParser: true,
-});
-
-//  Get the connection object
-const db = mongoose.connection;
-
-// Add the connection object to global config object
-gConfig.dbConnection = db;
+mongoose.connect(gConfig.dbUrl, 
+  {useCreateIndex: true,useNewUrlParser: true,},function(err, db) {
+    if(err) {
+      logger.error(`[${__file}] , Error in connecting to database`);
+      process.exit(1);
+    }
+  });
+const db = gConfig.dbConnection = mongoose.connection;
 
 //  Add template engine middleware
 server.set('view engine', 'pug');

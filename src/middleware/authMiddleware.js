@@ -1,7 +1,7 @@
 'use-strict';
 require('magic-globals');
 const check = require('check-types');
-const logger = require('../config/logger');
+const logger = require('../helpers/logger');
 const FILE = __file;
 
 const isSessionSet = function(req) {
@@ -91,13 +91,11 @@ module.exports.checkSession = function(req, res, next) {
         default:
           //  Check if session is set
           if (isSessionSet(req)) {
+            //  Request not allowed
+            res.status(405).send('This request is not allowed');
+          } else {
             //  Process the request
             next();
-          } else {
-            //  Request is not allowed
-            res
-                .status(405)
-                .send('This request is not allowed');
           }
           break;
       }
