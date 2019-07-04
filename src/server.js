@@ -20,12 +20,13 @@
  server.use(EXPRESS.json());
  server.use(EXPRESS.urlencoded({extended:true}));
 
- const privateKey = FS.readFileSync('./certs/server.key');
- const certificate = FS.readFileSync('./certs/server.crt');
- const credentials = {key:privateKey,cert:certificate};
- const httpsServer = HTTPS.createServer(credentials,server);
+ //const privateKey = FS.readFileSync('./certs/server.key');
+ //const certificate = FS.readFileSync('./certs/server.crt');
+ //const credentials = {key:privateKey,cert:certificate};
+ //const httpsServer = HTTPS.createServer(credentials,server);
  
  server.all('*',APP);
- httpsServer.listen(CONFIG.port,()=>{
+
+ server.listen(CONFIG.port,()=>{
      logger.info("[%s] , HTTPS server running at [%s:%s]",__file,IP.address(),CONFIG.port);
  });
