@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Web based notes documenting application",
   "main": "server.js",
+  "private": true,
   "dependencies": {
     "app-root-path": "^2.2.1",
     "dotenv": "^8.0.0",
@@ -17,7 +18,12 @@
     "pug": "^2.0.4",
     "winston": "^3.2.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@google-cloud/nodejs-repo-tools": "^3.3.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "nodemonConfig": {
     "ignore": [
       "logs/*"
