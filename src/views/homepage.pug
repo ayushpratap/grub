@@ -1,14 +1,8 @@
-doctype html
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        meta(http-equiv="X-UA-Compatible", content="ie=edge")
-        link(rel="stylesheet", href="css/bootstrap-grid.css")
-        link(rel="stylesheet", href="css/bootstrap-reboot.css")
-        link(rel="stylesheet", href="css/bootstrap.css")
-        title Homepage
-    body
+extends layout.pug
+
+block content
+    .container
         h1 This is the test heading for #{siteName}
         p Hello #{name}
         hr
+        p This is the test name #{test_name}
