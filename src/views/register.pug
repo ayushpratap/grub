@@ -1,0 +1,29 @@
+extends layout.pug
+
+block content
+    .main.container
+        .modal-dialog
+            .modal-content
+                .modal-heading
+                    h2.text-center Login
+                hr
+                .modal-body
+                    form(action="/register", method="post", role="form")
+                        .form-group
+                            .input-group
+                                span.input-group-addon
+                                    span.glyphicon.glyphicon-user
+                                input.form-control-filemy-input(type='email',placeholder="Email",id="email",name="email")
+                        .form-group
+                            .input-group
+                                span.input-group-addon
+                                    span.glyphicon.glyphicon-user
+                                input.form-control-filemy-input(type='text',placeholder="Username",id="username",name="username")
+                        .form-group
+                            .input-group
+                                span.input-group-addon
+                                    span.glyphicon.glyphicon-lock
+                                input.form-control-filemy-inpuy(type="password",placeholder="Password",id="password",name="password")
+                        .form-group.text-center
+                            button.btn.btn-success.btn-lg(type="submit") Register
+                            hr
