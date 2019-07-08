@@ -227,9 +227,10 @@ ROUTER.post('/login',(req,res,next)=>{
         //  Check if userame and password are filled
         if(req.body.username && req.body.password)
         {
+            LOGGER.info("[%s] , Username and password are filled",__file);
             //  Authenticate the user
             User.findOne({username:req.body.username})
-                .exec((err,user)=>{
+                .exec(function(err,user){
                     if(err)
                     {
                         throw err;
@@ -242,10 +243,10 @@ ROUTER.post('/login',(req,res,next)=>{
                     }
                     else
                     {
-                        bcrypt.compare(req.body.password, user.password,(err,result)=>{
+                        bcrypt.compare(req.body.password, user.password,function(err,result){
                             if(true == result)
                             {
-                                req.session.user = user._id;
+                                req.session.userId = user._id;
                                 req.session.username = user.username;
                                 res.redirect('/main');
                             }
