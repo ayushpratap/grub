@@ -13,7 +13,7 @@ const SESSION      = require('express-session');
 const MONGOOSE     = require('mongoose');
 const MONGOSTORE   = require('connect-mongo')(SESSION);
 const APP          = require('./app/app');
-const CONFIG       = require('./config/config');
+var CONFIG         = require('./config/config');
 const logger       = require('./config/logger');
 const server       = EXPRESS();
 
@@ -26,10 +26,12 @@ if("NULL" == CONFIG.db_url)
     logger.info("[%s] , Exit the application",__file);
     process.exit(1);
 }
+logger.info("[%s] , db_url = [%s]",__file,CONFIG.db_url);
 MONGOOSE.connect(CONFIG.db_url,{
-    useMongoClient:true
+    useCreateIndex:true,
+    useNewUrlParser:true
 });
-MONGOOSE.Promise = global.Promise;
+//MONGOOSE.Promise = global.Promise;
 CONFIG.db_connection = MONGOOSE.connection;
 
 
@@ -54,9 +56,11 @@ server.use(SESSION({
         mongooseConnection:CONFIG.db_connection
     })
 }));
-
 server.all('*',APP);
-
-server.listen(CONFIG.port,()=>{
-    logger.info("[%s] , HTTPS server running at [%s:%s]",__file,IP.address(),CONFIG.port);
+CONFIG.db_connection.once('open',()=>{
+    logger.info("[%s] , Connected to database",__file);
+    logger.info("[%s] , starting the http server",__file);
+    server.listen(CONFIG.port,()=>{
+        logger.info("[%s] , HTTPS server running at [%s:%s]",__file,IP.address(),CONFIG.port);
+    });
 });
