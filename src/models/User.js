@@ -63,13 +63,12 @@ UserSchema.authenticate =  function(usetname ,password ,callback){
 }
 
 UserSchema.pre('save',function(next){
-    var user = this;
     bcrypt.hash(this.password,10,(err,hash)=>{
         if(err)
             return next(err);
         else
         {
-            this.password.hash;
+            this.password = hash;
             next();
         }
     });
