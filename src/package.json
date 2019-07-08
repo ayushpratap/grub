@@ -6,6 +6,7 @@
   "private": true,
   "dependencies": {
     "app-root-path": "^2.2.1",
+    "bcrypt": "^3.0.6",
     "connect-mongo": "^3.0.0",
     "cookie-parser": "^1.4.4",
     "dotenv": "^8.0.0",
@@ -13,8 +14,9 @@
     "express-session": "^1.16.2",
     "fs": "0.0.1-security",
     "googleapis": "^40.0.1",
-    "https": "^1.0.0",
     "ip": "^1.1.5",
+    "is-empty": "^1.2.0",
+    "is-undefined": "^1.0.10",
     "magic-globals": "^0.9.1",
     "mongoose": "^5.6.3",
     "nodemon": "^1.19.1",
