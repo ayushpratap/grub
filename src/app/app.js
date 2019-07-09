@@ -3,7 +3,7 @@ require('magic-globals');
 const EXPRESS = require('express');
 const isUndefined = require('is-undefined');
 const isEmpty = require('is-empty');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const CONFIG = require('../config/config');
 const LOGGER = require('../config/logger');
 var User    = require('../models/User');
@@ -243,12 +243,16 @@ ROUTER.post('/login',(req,res,next)=>{
                     }
                     else
                     {
-                        bcrypt.compare(req.body.password, user.password,function(err,result){
+                        bcryptjs.compare(req.body.password, user.password,function(err,result){
                             if(true == result)
                             {
                                 req.session.userId = user._id;
                                 req.session.username = user.username;
                                 res.redirect('/main');
+                            }
+                            else
+                            {
+                                res.send('Password is not correct  <a href="/">Home</a>');
                             }
                         });
                     }

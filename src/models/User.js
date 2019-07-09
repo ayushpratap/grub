@@ -1,5 +1,5 @@
 const MONGOOSE = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 var CONFIG = require('../config/config');
 const logger = require('../config/logger');
 
@@ -49,7 +49,7 @@ UserSchema.authenticate =  function(usetname ,password ,callback){
                 err.status = 401;
                 return callback(err);
             }
-            bcrypt.compare(password,user.password,(err,result)=>{
+            bcryptjs.compare(password,user.password,(err,result)=>{
                 if(true == result)
                 {
                     return callback(null,user);
@@ -63,15 +63,10 @@ UserSchema.authenticate =  function(usetname ,password ,callback){
 }
 
 UserSchema.pre('save',function(next){
-    bcrypt.hash(this.password,10,(err,hash)=>{
-        if(err)
-            return next(err);
-        else
-        {
-            this.password = hash;
-            next();
-        }
-    });
+    let salt = bcryptjs.genSaltSync(10);
+    let hash = bcryptjs.hashSync(this.password,salt);
+    this.password = hash;
+    next();
 });
 /**
  * Create the user model using the user schema
