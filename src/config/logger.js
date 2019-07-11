@@ -1,12 +1,16 @@
 'use-strict';
 const CONFIG    = require('./config');
 const WINSTON   = require('winston');
+require('winston-daily-rotate-file');
 const FS        = require('fs');
 const APPROOT   = require('app-root-path');
 const LOG_DIR   = APPROOT+'/logs';
 const TIMESTAMP = 'DD-MM-YYYY HH:mm:ss';
-const LOG_FILE  = LOG_DIR+'/log.json';
-
+const LOG_FILE  = LOG_DIR+'/log.log';
+function getDate()
+{
+    return ((new Date()).toISOString().slice(0,10)).toString();
+}
 if(!FS.existsSync(LOG_DIR))
 {
 	FS.mkdirSync(LOG_DIR);

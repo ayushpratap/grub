@@ -7,3 +7,23 @@
 .modal-heading h2{
     color: #ffffff;
 }
+.chat-box{
+    position: relative;
+    height: 500px;
+    width: 500px;
+    background-color: azure;
+}
+.chat-box-head{
+    position: relative;
+    text-align: center;
+    width: 500px;
+}
+.chat-box-messages{
+    height: 250px;
+    overflow-y: auto;
+}
+.chat-box-bottom{
+    position: relative;
+    text-align: center;
+    width: 500px;
+}

@@ -5,20 +5,52 @@
 html(lang="en")
     //  Include the head
     include head.pug
-    script(src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous")
     //  Add socket.io client
     script(src="/socket.io/socket.io.js")
     script(src="js/main-script.js")
+
     body
         .container-fluid
-            h1 Username : #{username}
-            h2 userId : #{userId}
-            
-            .container            
-                a(href="/logout") Logout
-                ul
-                    for user in userList
-                        li=user.username
-                    else
-                        li No users
+            .container
+                //  Create first row
+                .row
+                    .col.col-sm-9.col-lg-9.col-md-9
+                        h3 Username : #{username}
+                    .col.text-center
+                        a(href="/logout") Logout
+                hr
+                //  Create second row
+                .row
+                    .col.col-sm-3.col-lg-3.col-md-3.border
+                        .container            
+                            each user in userList
+                                if user.username != username
+                                    .row
+                                        a(href="#")
+                                            = user.username
+                    .col.col-sm-9.col-lg-9.col-md-9
+                        .container
+                            //  Create a row
+                            .row
+                                //  Add one coloumn
+                                .col-sm-12.col-md-12.col-lg-12
+                                    //  Add card
+                                    .card
+                                        //  Add card header
+                                        .card-header.text-center
+                                            p   Test User
+                                        //  This is the card body
+                                        .card-block.chat-box-messages
+                                            p   This is the messaging body
+                                            p   This is the messaging body
+                                            p   This is the messaging body
+                                            
+                                        //  Add card footer
+                                        .card-footer
+                                            //  Add row
+                                            .row
+                                                // Add input box
+                                                .col-sm-9.col-md-9.col-lg-9
+                                                    input(type="text", name="test")
+                                                .col-sm-3.col-md-3.col-lg-3
+                                                    button(type="submit") Send

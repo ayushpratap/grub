@@ -92,6 +92,7 @@ ROUTER.get('/main',function(req,res){
             res
                 .status(200)
                 .render("main",{
+                    title:'Main Page',
                     username:req.session.username,
                     userId:req.session.userId,
                     userList:userList
