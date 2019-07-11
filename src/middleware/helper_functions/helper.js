@@ -4,6 +4,7 @@ require('magic-globals');
 const g_config = require('../../config/config');
 const logger = require('../../config/logger');
 const check = require('check-types');
+const socket_events = require('../socket_modules/socket_events');
 const EXIT_MESSAGE = "Exit the application :";
 /**
  *
@@ -70,8 +71,5 @@ module.exports.startServer = function(http,io)
                                 });
 
                                 //  Start socket.io server
-                                io.on('connection',function(socket)
-                                {               
-                                    logger.info('[%s] , [startServer] , socket.io client connected',__file);
-                                });
+                                socket_events.onConnection(io);
                             }
