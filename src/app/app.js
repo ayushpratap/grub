@@ -1,4 +1,5 @@
-// TODO : List all useres on homepage
+'use-strict';
+//  TODO : Add socket.io client in main page
 require('magic-globals');
 const EXPRESS = require('express');
 const isUndefined = require('is-undefined');
@@ -53,7 +54,7 @@ ROUTER.get('/',(req,res)=>{
  * If the user is logged in then render the main page
  * else redirect the user to the homepage.
  */
-ROUTER.get('/main',(req,res)=>{
+ROUTER.get('/main',function(req,res){
     LOGGER.info('--------------------------------------------------------------------------------');
     LOGGER.info("[%s] , GET /main",__file);
     
@@ -77,12 +78,25 @@ ROUTER.get('/main',(req,res)=>{
     {
         LOGGER.info("[%s] , session is set = [%s]",__file,req.session.username);
         LOGGER.info("[%s] , render the main page",__file);
-        res
-            .status(200)
-            .render("main",{
-                username:req.session.username,
-                userId:req.session.userId
+
+        //  Retrive all useres from db
+        User.find({},function(err,users){
+            if(err)
+            {
+                throw err;
+            }
+            var userList = {};
+            users.forEach(function(user){
+                userList[user._id] = user;
             });
+            res
+                .status(200)
+                .render("main",{
+                    username:req.session.username,
+                    userId:req.session.userId,
+                    userList:userList
+                });
+        });
     }
 });
 

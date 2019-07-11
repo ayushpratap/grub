@@ -1,3 +1,4 @@
+'use-strict';
 const CONFIG    = require('./config');
 const WINSTON   = require('winston');
 const FS        = require('fs');

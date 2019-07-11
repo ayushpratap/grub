@@ -1,5 +1,24 @@
 //  TODO : show navbar
 //  TODO : list all the registered useres
-h1 Username : #{username}
-h2 userId : #{userId}
-a(href="/logout") Logout
+
+<!DOCTYPE html>
+html(lang="en")
+    //  Include the head
+    include head.pug
+    script(src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous")
+    //  Add socket.io client
+    script(src="/socket.io/socket.io.js")
+    script(src="js/main-script.js")
+    body
+        .container-fluid
+            h1 Username : #{username}
+            h2 userId : #{userId}
+            
+            .container            
+                a(href="/logout") Logout
+                ul
+                    for user in userList
+                        li=user.username
+                    else
+                        li No users
