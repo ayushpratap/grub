@@ -13,8 +13,9 @@ function onConnect(client) {
  */
 function buildUserList(users) {
   console.log(users);
+  const list = users.list;
   //  Loop though the users object
-  $.each(users, function(keys, user) {
+  $.each(list, function(keys, user) {
     //  Append to the user list
     console.log(user);
     $('#user-list').append(`<div class="row"><a href="#">${user}</a></div>`);
