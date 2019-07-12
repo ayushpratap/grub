@@ -253,6 +253,7 @@ router.post('/login', (req, res, next) => {
 router.get('/getUserList', function(req, res) {
   logger.info(dashLine);
   logger.info('[%s] , GET /getUserList', file);
-  res.send({name1: 'Singh', name2: 'Pratap', name3: 'Ayush'});
+  const userList = {list: ['Ayush', 'Pratap', 'Singh']};
+  res.send(userList);
 });
 module.exports = router;
