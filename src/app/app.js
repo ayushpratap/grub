@@ -7,43 +7,19 @@ const isEmpty = require('is-empty');
 const bcryptjs = require('bcryptjs');
 const logger = require('../config/logger');
 const User = require('../models/User');
+const auth = require('../controllers/auth');
 // eslint-disable-next-line new-cap
 const router = express.Router();
 const dashLine = '------------------------------------------------------------';
 const file = __file;
 /**
  * This route loads the homepage of the application
- * If the user is alread logged in then user will be
+ * If the user is already logged in then user will be
  * redirected to the main page.
  */
 router.get('/', (req, res) => {
   logger.info(dashLine);
-  logger.info('[%s] , GET /', file);
-
-  /**
-     * Check if req.session.username is set or not.
-     * If it is empty of undefined then that means
-     * session is not set.
-     * If session is not set then render the homepage.
-     * If session is set then redirect the user to the
-     * main page.
-     */
-  if (isUndefined(req.session.username) || isEmpty(req.session.username)) {
-    logger.info('[%s] , session is not set', file);
-    logger.info('[%s] , render the home page', file);
-    res
-        .status(200)
-        .render('homepage', {
-          name: 'Ayush',
-          title: 'homepage',
-        });
-  } else {
-    logger.info('[%s] , session is set to = [%s]', file, req.session.username);
-    logger.info('[%s] , redirect the use to main page', file);
-    res
-        .status(200)
-        .redirect('/main');
-  }
+  auth.index(req, res);
 });
 
 /**
@@ -73,7 +49,7 @@ router.get('/main', function(req, res) {
     logger.info('[%s] , session is set = [%s]', file, req.session.username);
     logger.info('[%s] , render the main page', file);
 
-    //  Retrive all useres from db
+    //  Retrieve all users from db
     User.find({}, function(err, users) {
       if (err) {
         throw err;
@@ -110,7 +86,7 @@ router.get('/register', (req, res) => {
         });
   } else {
     //  Session is set
-    logger.info('[%s] , session is set , redirct to main page');
+    logger.info('[%s] , session is set , redirect to main page');
     res.redirect('/main');
   }
 });
@@ -122,7 +98,7 @@ router.post('/register', (req, res, next) => {
   //  Check if session is already set
   if (isUndefined(req.session.userId) || isEmpty(req.session.userId)) {
     //  Session is not set
-    //  Check if all the fileds filled or not
+    //  Check if all the fields filled or not
     if (
       req.body.email &&
       req.body.username &&
@@ -167,29 +143,9 @@ router.post('/register', (req, res, next) => {
  */
 router.get('/login', (req, res) => {
   logger.info(dashLine);
-  logger.info('[%s] , GET /login', file);
-
-  /**
-     * Check if req.session.username is set or not.
-     * If it is set then it means user is logged in.
-     * If session is set then redirect the user to
-     * main page.
-     * Else render the login page.
-     */
-  if (isUndefined(req.session.userId) || isEmpty(req.session.userId)) {
-    logger.info('[%s] , session is not set, render login page', file);
-    res
-        .status(200)
-        .render('login', {
-          title: 'Login Page',
-        });
-  } else {
-    logger.info('[%s] , session is set , redirect to MainPage', file);
-    res
-        .status(200)
-        .redirect('/main');
-  }
+  auth.getLogin(req, res);
 });
+
 router.get('/logout', (req, res) => {
   logger.info(dashLine);
   logger.info('[%s] , GET /logout', file);
