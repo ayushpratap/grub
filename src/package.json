@@ -28,7 +28,9 @@
     "winston-daily-rotate-file": "^3.9.0"
   },
   "devDependencies": {
-    "@google-cloud/nodejs-repo-tools": "^3.3.0"
+    "@google-cloud/nodejs-repo-tools": "^3.3.0",
+    "eslint": "^6.0.1",
+    "eslint-config-google": "^0.13.0"
   },
   "engines": {
     "node": ">=8.0.0"

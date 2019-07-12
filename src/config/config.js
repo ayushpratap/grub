@@ -1,11 +1,11 @@
 'use-restrict';
 require('dotenv').config();
 
-var CONFIG={};
+const CONFIG={};
 
-CONFIG.port         = process.env.HTTPS_PORT            || 8081;
-CONFIG.app_env      = process.env.APP_ENV               || 'dev';
-CONFIG.db_url       = process.env.DB_URL                || "NULL";
-CONFIG.session_secret = process.env.SESSION_SECRET      || "NULL";
+CONFIG.port = process.env.HTTPS_PORT || 8081;
+CONFIG.appEnv = process.env.APP_ENV || 'dev';
+CONFIG.dbUrl = process.env.DB_URL || 'NULL';
+CONFIG.sessionSecret = process.env.SESSION_SECRET || 'NULL';
 
 module.exports = CONFIG;

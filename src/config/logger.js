@@ -1,54 +1,48 @@
 'use-strict';
-const CONFIG    = require('./config');
-const WINSTON   = require('winston');
-require('winston-daily-rotate-file');
-const FS        = require('fs');
-const APPROOT   = require('app-root-path');
-const LOG_DIR   = APPROOT+'/logs';
-const TIMESTAMP = 'DD-MM-YYYY HH:mm:ss';
-const LOG_FILE  = LOG_DIR+'/log.log';
-function getDate()
-{
-    return ((new Date()).toISOString().slice(0,10)).toString();
-}
-if(!FS.existsSync(LOG_DIR))
-{
-	FS.mkdirSync(LOG_DIR);
+const gConfig = require('./config');
+const winston = require('winston');
+const fs = require('fs');
+const appRoot = require('app-root-path');
+const logDir = appRoot+'/logs';
+const timeStamp = 'DD-MM-YYYY HH:mm:ss';
+const logFile = logDir+'/log.log';
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir);
 }
 
-const LOGGER = WINSTON.createLogger({
-    format: WINSTON.format.combine(
-        WINSTON.format.splat(),
-        WINSTON.format.timestamp({
-            format: TIMESTAMP
-        })
-    ),
-    transports:[
-        new WINSTON.transports.File({
-            format: WINSTON.format.combine(
-                WINSTON.format.json(),
-                WINSTON.format.prettyPrint(),
-                WINSTON.format.printf(
-                    info => `${info.timestamp} ${info.level} : ${info.message}`,
-                    debug => `${debug.timestamp} ${debug.level} : ${debug.message}`,
-                    error => `${error.timestamp} ${error.level} : ${error.message}`
-                )
-            ),
-            filename: LOG_FILE,
-            level: 'silly'
-        }),
-        new WINSTON.transports.Console({
-            level: CONFIG.app_env === 'dev' ? 'debug' : 'info',
-            format: WINSTON.format.combine(
-                WINSTON.format.colorize(),
-                WINSTON.format.printf(
-                    info => `${info.timestamp} ${info.level} : ${info.message}`,
-                    debug => `${debug.timestamp} ${debug.level} : ${debug.message}`,
-                    error => `${error.timestamp} ${error.level} : ${error.message}`
-                )
-            )
-        })
-    ]
+const logger = winston.createLogger({
+  format: winston.format.combine(
+      winston.format.splat(),
+      winston.format.timestamp({
+        format: timeStamp,
+      })
+  ),
+  transports: [
+    new winston.transports.File({
+      format: winston.format.combine(
+          winston.format.json(),
+          winston.format.prettyPrint(),
+          winston.format.printf(
+              (info) => `${info.timestamp} ${info.level} : ${info.message}`,
+              (debug) => `${debug.timestamp} ${debug.level} : ${debug.message}`,
+              (error) => `${error.timestamp} ${error.level} : ${error.message}`
+          )
+      ),
+      filename: logFile,
+      level: 'silly',
+    }),
+    new winston.transports.Console({
+      level: gConfig.appEnv === 'dev' ? 'debug' : 'info',
+      format: winston.format.combine(
+          winston.format.colorize(),
+          winston.format.printf(
+              (info) => `${info.timestamp} ${info.level} : ${info.message}`,
+              (debug) => `${debug.timestamp} ${debug.level} : ${debug.message}`,
+              (error) => `${error.timestamp} ${error.level} : ${error.message}`
+          )
+      ),
+    }),
+  ],
 });
 
-module.exports = LOGGER;
+module.exports = logger;
