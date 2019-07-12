@@ -21,7 +21,7 @@ const logger = require('./config/logger');
 
 helper.checkSessionSecret();
 helper.checkDbUrl();
-
+global.test = 'hello';
 /**
  * Connect to database
  */
