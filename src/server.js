@@ -5,20 +5,19 @@
 
 // Require components
 require('magic-globals');
-const EXPRESS      = require('express');
-const server       = EXPRESS();
-const dualServer   = require('http').createServer(server);
-const IP           = require('ip');
-const PATH         = require('path');
-const COOKIEPARSER = require('cookie-parser');
-const SESSION      = require('express-session');
-const MONGOOSE     = require('mongoose');
-const MONGOSTORE   = require('connect-mongo')(SESSION);
-const io           = require('socket.io')(dualServer);
+const express = require('express');
+const server = express();
+const dualServer = require('http').createServer(server);
+const PATH = require('path');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
+const io = require('socket.io')(dualServer);
 const helper = require('./middleware/helper_functions/helper');
-const APP          = require('./app/app');
-var CONFIG         = require('./config/config');
-const logger       = require('./config/logger');
+const app = require('./app/app');
+const gConfig = require('./config/config');
+const logger = require('./config/logger');
 
 helper.checkSessionSecret();
 helper.checkDbUrl();
@@ -26,36 +25,36 @@ helper.checkDbUrl();
 /**
  * Connect to database
  */
-MONGOOSE.connect(CONFIG.db_url,{
-    useCreateIndex:true,
-    useNewUrlParser:true
+mongoose.connect(gConfig.dbUrl, {
+  useCreateIndex: true,
+  useNewUrlParser: true,
 });
 
-var db = MONGOOSE.connection;
-CONFIG.db_connection = db;
+const db = mongoose.connection;
+gConfig.dbConnection = db;
 
 //  Add middlewares
-server.set('view engine','pug');
-server.set('views',PATH.join(__dirname,'views'));
-server.use(EXPRESS.static(PATH.join(__dirname,'public')));
-server.use(EXPRESS.json());
-server.use(EXPRESS.urlencoded({extended:true}));
-server.use(COOKIEPARSER());
-server.use(SESSION({
-    secret:CONFIG.session_secret,
-    resave:false,
-    saveUninitialized:true,
-    store: new MONGOSTORE({
-        mongooseConnection:CONFIG.db_connection
-    })
+server.set('view engine', 'pug');
+server.set('views', PATH.join(__dirname, 'views'));
+server.use(express.static(PATH.join(__dirname, 'public')));
+server.use(express.json());
+server.use(express.urlencoded({extended: true}));
+server.use(cookieParser());
+server.use(session({
+  secret: gConfig.sessionSecret,
+  resave: false,
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection: gConfig.dbConnection,
+  }),
 }));
 
 //  Route all http request to app
-server.all('*',APP);
+server.all('*', app);
 
-db.once('open',()=>{
-    logger.info("[%s] , [] , Connected to database",__file);
+db.once('open', ()=>{
+  logger.info('[%s] , Connected to database', __file);
 
-    //  Start HTTP server
-    helper.startServer(dualServer,io);
+  //  Start HTTP server
+  helper.startServer(dualServer, io);
 });
