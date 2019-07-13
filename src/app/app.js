@@ -4,7 +4,6 @@ require('magic-globals');
 const express = require('express');
 const isUndefined = require('is-undefined');
 const isEmpty = require('is-empty');
-const bcryptjs = require('bcryptjs');
 const logger = require('../config/logger');
 const User = require('../models/User');
 const auth = require('../controllers/auth');
@@ -76,66 +75,13 @@ router.get('/main', function(req, res) {
 router.get('/register', (req, res) => {
   logger.info(dashLine);
   logger.info('[%s] , GET /register', file);
-  if (isUndefined(req.session.userId) || isEmpty(req.session.userId)) {
-    //  Session is not set
-    logger.info('[%s] , session is not set, render registration page', file);
-    res
-        .status(200)
-        .render('register', {
-          title: 'Register Page',
-        });
-  } else {
-    //  Session is set
-    logger.info('[%s] , session is set , redirect to main page');
-    res.redirect('/main');
-  }
+  auth.getRegister(req, res);
 });
 
-router.post('/register', (req, res, next) => {
+router.post('/register', (req, res) => {
   logger.info(dashLine);
   logger.info('[%s] , POST /register', file);
-
-  //  Check if session is already set
-  if (isUndefined(req.session.userId) || isEmpty(req.session.userId)) {
-    //  Session is not set
-    //  Check if all the fields filled or not
-    if (
-      req.body.email &&
-      req.body.username &&
-      req.body.password &&
-      req.body.cPassword
-    ) {
-      // Confirm if the password and confirm password are same or not
-      if (req.body.password !== req.body.cPassword) {
-        const err = new Error('Password do not match');
-        err.status = 400;
-        res.send('Password do not match');
-        return next(err);
-      }
-      //  Create a user data object
-      const userData = {
-        name: req.body.name,
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password,
-      };
-      User.create(userData, (error, user) => {
-        if (error) {
-          return next(error);
-        } else {
-          //  Set the user id as current session id
-          req.session.userId = user._id;
-          req.session.username = req.body.username;
-
-          // Redirect to the main page
-          return res.redirect('/main');
-        }
-      });
-    }
-  } else {
-    //  Session is already set
-    res.redirect('/main');
-  }
+  auth.postRegister(req, res);
 });
 
 /**
@@ -148,62 +94,14 @@ router.get('/login', (req, res) => {
 
 router.get('/logout', (req, res) => {
   logger.info(dashLine);
-  logger.info('[%s] , GET /logout', file);
-  req.session.destroy((err) => {
-    if (err) {
-      logger.error('[%s] , %o', file, err);
-    }
-    logger.info('[%s] , session destroyed and redirect to homepage', file);
-    res.redirect('/');
-  });
+  auth.logout(req, res);
 });
-router.post('/login', (req, res, next) => {
+router.post('/login', (req, res) => {
   /**
      * Existing user trying to login
      */
   logger.info(dashLine);
-  logger.info('[%s] , POST /login', file);
-  logger.info('[%s] , Request received to login', file);
-  logger.info('[%s] , %o', file, req.body);
-
-  //  Check if seesion is already established
-  if (isUndefined(req.session.userId) || isEmpty(req.session.userId)) {
-    //  Session is not set
-    logger.info('[%s] , session is not set, set the session', file);
-
-    //  Check if userame and password are filled
-    if (req.body.username && req.body.password) {
-      logger.info('[%s] , Username and password are filled', file);
-      //  Authenticate the user
-      User.findOne({username: req.body.username})
-          .exec(function(err, user) {
-            if (err) {
-              throw err;
-            } else if (isUndefined(user) || isEmpty(user) || null == user) {
-              res
-                  .status(401)
-                  .send('User do not exists hr <a href="/">Home</a>');
-            } else {
-              const password = req.body.password;
-              bcryptjs.compare(password, user.password, function(err, result) {
-                if (true == result) {
-                  req.session.userId = user._id;
-                  req.session.username = user.username;
-                  res.redirect('/main');
-                } else {
-                  res.send('Password is not correct  <a href="/">Home</a>');
-                }
-              });
-            }
-          });
-    }
-  } else {
-    //  Session is set
-    logger.info('[%s] , session is set , redirect to main page', file);
-    res
-        .status(200)
-        .redirect('/main');
-  }
+  auth.postLogin(req, res);
 });
 
 router.get('/getUserList', function(req, res) {

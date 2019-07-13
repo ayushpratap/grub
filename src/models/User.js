@@ -32,7 +32,7 @@ const UserSchema = new MONGOOSE.Schema({
     maxlength: 20,
   },
 });
-UserSchema.set('toJSON', {virtuals: true});
+//  UserSchema.set('toJSON', {virtuals: true});
 UserSchema.authenticate = function(username, password, callback) {
   User.findOne({username: username})
       .exec(function(err, user) {
