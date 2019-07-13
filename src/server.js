@@ -18,6 +18,7 @@ const helper = require('./middleware/helper_functions/helper');
 const app = require('./app/app');
 const gConfig = require('./config/config');
 const logger = require('./config/logger');
+const authMiddleware = require('./middleware/authMiddleware');
 
 helper.checkSessionSecret();
 helper.checkDbUrl();
@@ -33,7 +34,7 @@ mongoose.connect(gConfig.dbUrl, {
 const db = mongoose.connection;
 gConfig.dbConnection = db;
 
-//  Add middlewares
+//  Add middleware
 server.set('view engine', 'pug');
 server.set('views', PATH.join(__dirname, 'views'));
 server.use(express.static(PATH.join(__dirname, 'public')));
@@ -48,7 +49,8 @@ server.use(session({
     mongooseConnection: gConfig.dbConnection,
   }),
 }));
-
+//  Use the checkSession middleware to express
+server.use(authMiddleware.checkSession);
 //  Route all http request to app
 server.all('*', app);
 
