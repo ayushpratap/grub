@@ -30,7 +30,7 @@ module.exports.checkSession = function(req, res, next) {
       if (sessionSet) {
         logger.info(`[${FILE}] , [${FUNC}] , Session is set`);
         //  Session is set , redirect to main page
-        res.redirect('/main');
+        res.redirect('/api/main');
       } else {
         logger.info(`[${FILE}] , [${FUNC}] , Session is not set`);
         //  Session is not set , let it go to GET / router
@@ -48,7 +48,7 @@ module.exports.checkSession = function(req, res, next) {
           if (sessionSet) {
             logger.info(`[${FILE}] , [${FUNC}] , Session is set`);
             //  Session is set , redirect to main page
-            res.redirect('/main');
+            res.redirect('/api/main');
           } else {
             logger.info(`[${FILE}] , [${FUNC}] , Session is not set`);
             //  Session is not set, let it go to GET /login route
@@ -74,6 +74,7 @@ module.exports.checkSession = function(req, res, next) {
           }
           break;
       }
+      break;
     case '/register':
       //  Check the request type
       switch (req.method) {
@@ -81,7 +82,7 @@ module.exports.checkSession = function(req, res, next) {
           //  Check if session is set
           if (isSessionSet(req)) {
             //  Session is set , redirect to main page
-            res.redirect('/main');
+            res.redirect('/api/main');
           } else {
             //  Session is not set , let it go to GET /register route
             next();
@@ -113,19 +114,4 @@ module.exports.checkSession = function(req, res, next) {
       }
       break;
   }
-  /*
-  if (check.null(req.session.userId)||
-  check.undefined(req.session.userId)||
-  check.emptyString(req.session.userId)) {
-    //  User session is not set
-    //  Check what is the path of the request
-
-    logger.info(`[${FILE}] , [${FUNC}] , Session is not set`);
-    logger.info(`[${FILE}] , [${FUNC}] , Redirect to '/'`);
-    res.redirect('/');
-  } else {
-    //  User session is set
-    logger.info(`[${FILE}] , [${FUNC}] , Session is set`);
-    return next();
-  }*/
 };

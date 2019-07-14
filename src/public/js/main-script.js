@@ -18,7 +18,8 @@ function buildUserList(users) {
   $.each(list, function(keys, user) {
     //  Append to the user list
     console.log(user);
-    $('#user-list').append(`<div class="row"><a href="#">${user}</a></div>`);
+    $('#user-list')
+        .append(`<div class="row"><a href="#"><span>${user}</span></a></div>`);
   });
 }
 /**
@@ -30,7 +31,7 @@ function loadUserList() {
   const username = $('#username').text();
   $.ajax({
     type: 'GET',
-    url: '/getUserList',
+    url: '/api/getUserList',
     data: {username: username},
     dataType: 'JSON',
     success: function(data, status, jqXhr) {
@@ -44,7 +45,7 @@ function loadUserList() {
   });
 }
 $(document).ready(function() {
-  //  URL of the server where lient needs to connect
+  //  URL of the server where client needs to connect
   const client = io('http://localhost:8081');
 
   //  Listen for socket connect event
