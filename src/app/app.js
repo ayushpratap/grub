@@ -2,10 +2,7 @@
 //  TODO : Add socket.io client in main page
 require('magic-globals');
 const express = require('express');
-const isUndefined = require('is-undefined');
-const isEmpty = require('is-empty');
 const logger = require('../config/logger');
-const User = require('../models/User');
 const auth = require('../controllers/auth');
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -38,35 +35,19 @@ router.get('/main', function(req, res) {
      * So if session is set then render the main page
      * else redirect the user to the login page.
      */
-  if (isUndefined(req.session.userId) || isEmpty(req.session.userId)) {
-    logger.info('[%s] , session is not set ', file);
-    logger.info('[%s] , redirect the user to login page', file);
-    res
-        .status(200)
-        .redirect('/login');
-  } else {
-    logger.info('[%s] , session is set = [%s]', file, req.session.username);
-    logger.info('[%s] , render the main page', file);
-
-    //  Retrieve all users from db
-    User.find({}, function(err, users) {
-      if (err) {
-        throw err;
-      }
-      const userList = {};
-      users.forEach(function(user) {
-        userList[user._id] = user;
-      });
-      res
-          .status(200)
-          .render('main', {
-            title: 'Main Page',
-            username: req.session.username,
-            userId: req.session.userId,
-            userList: userList,
-          });
-    });
-  }
+  //  if (isUndefined(req.session.userId) || isEmpty(req.session.userId)) {
+  //    logger.info('[%s] , session is not set ', file);
+  //    logger.info('[%s] , redirect the user to login page', file);
+  //    res
+  //        .status(200)
+  //        .redirect('/login');
+  //  } else {
+  logger.info('[%s] , session is set = [%s]', file, req.session.username);
+  logger.info('[%s] , render the main page', file);
+  res.status(200).render('main', {
+    title: 'Main Page',
+    username: req.session.username, userId: req.session.userId,
+  });
 });
 
 /**

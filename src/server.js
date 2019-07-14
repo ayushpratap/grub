@@ -8,7 +8,7 @@ require('magic-globals');
 const express = require('express');
 const server = express();
 const dualServer = require('http').createServer(server);
-const PATH = require('path');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -19,6 +19,7 @@ const app = require('./app/app');
 const gConfig = require('./config/config');
 const logger = require('./config/logger');
 const authMiddleware = require('./middleware/authMiddleware');
+const favicon = require('express-favicon');
 
 helper.checkSessionSecret();
 helper.checkDbUrl();
@@ -36,8 +37,10 @@ gConfig.dbConnection = db;
 
 //  Add middleware
 server.set('view engine', 'pug');
-server.set('views', PATH.join(__dirname, 'views'));
-server.use(express.static(PATH.join(__dirname, 'public')));
+server.set('views', path.join(__dirname, 'views'));
+//  Add favicon middleware
+server.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
+server.use(express.static(path.join(__dirname, 'public')));
 server.use(express.json());
 server.use(express.urlencoded({extended: true}));
 server.use(cookieParser());
