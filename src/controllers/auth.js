@@ -1,16 +1,34 @@
 'use-strict';
+
+//  Require the npm components
 require('magic-globals');
 const check = require('check-types');
+const bcryptjs = require('bcryptjs');
+
+//  Require application components
 const logger = require('../config/logger');
 const User = require('../models/User');
-const bcryptjs = require('bcryptjs');
+
 const FILE = __file;
 
+/**
+ * This function renders the login page
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
 module.exports.getLogin = function(req, res) {
   const FUNC = 'getLogin';
   logger.info(`[${FILE}] , [${FUNC}] , Process login request`);
   res.status(200).render('login', {title: 'Login Page'});
 };
+
+/**
+ * This function process the login request
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
 module.exports.postLogin = function(req, res) {
   const FUNC = 'postLogin';
   logger.info(`[${FILE}] , [${FUNC}] , Process login request`);
@@ -44,7 +62,12 @@ module.exports.postLogin = function(req, res) {
         }
       });
 };
-
+/**
+ * This function process the register request
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
 module.exports.postRegister = function(req, res) {
   const FUNC = 'postRegister';
   //  Check if password and cPassword match or not
@@ -70,14 +93,24 @@ module.exports.postRegister = function(req, res) {
     });
   }
 };
-
+/**
+ * This function render the register page
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
 module.exports.getRegister = function(req, res) {
   const FUNC = 'getRegister';
   logger.info('[%s] , [%s] , Session is not set', FILE, FUNC);
   logger.info('[%s] , [%s] , Render registration page', FILE, FUNC);
   res.status(200).render('register', {title: 'Register Page'});
 };
-
+/**
+ * This functions handles the logout
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
 module.exports.logout = function(req, res) {
   const FUNC = 'logout';
   req.session.destroy(function(err) {
