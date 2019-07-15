@@ -4,17 +4,9 @@ Grub is a simple note taking progressive web app.
 ```
 Grub
 ├─ .git
-├─ .vscode
-│  ├─ launch.json
-│  └─ settings.json
-├─ grub.code-workspace
 ├─ README.md
 ├─ src
-│  ├─ .elasticbeanstalk
-│  │  └─ config.yml
 │  ├─ .env
-│  ├─ .eslintrc.js
-│  ├─ .gitignore
 │  ├─ config
 │  │  ├─ config.js
 │  │  └─ logger.js
@@ -35,7 +27,6 @@ Grub
 │  │  ├─ Message.js
 │  │  └─ User.js
 │  ├─ node_modules
-│  ├─ package-lock.json
 │  ├─ package.json
 │  ├─ public
 │  │  ├─ css
