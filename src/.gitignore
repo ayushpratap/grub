@@ -1,6 +1,9 @@
 logs/*
 node_modules/*
-*.code-workspace
+launch.json
+settings.json
+../*.code-workspace
+../.vscode
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
