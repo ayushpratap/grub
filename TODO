@@ -1,4 +1,5 @@
-
 Todo:
-  ☐ Generate data in chat window dynamically
+  - Generate data in chat window dynamically
   - Chat window load when click on username
+  - Create shcema for messages
+  - Create schema for chats
