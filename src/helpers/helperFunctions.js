@@ -1,10 +1,9 @@
-'use-stric';
+'use-strict';
 
 require('magic-globals');
-const gConfig = require('../../config/config');
-const logger = require('../../config/logger');
+const gConfig = require('../config/config');
+const logger = require('../config/logger');
 const check = require('check-types');
-const socketEvents = require('../socket_modules/socketEvents');
 const EXIT = 'Exit the application :';
 
 module.exports.checkSessionSecret = function() {
@@ -40,21 +39,4 @@ module.exports.checkDbUrl = function() {
     logger.debug('[%s] , [checkDbUrl] , DB url is = %s', __file, dbUrl);
     return true;
   }
-};
-
-module.exports.startServer = function(http, io) {
-  //  Start HTTP server
-  const port = gConfig.port;
-  const func = 'startServer';
-  http.listen(port, function(err) {
-    if (err) {
-      throw err;
-    } else {
-      const url = `http://localhost:${port}`;
-      logger.info('[%s] , [%s] , HTTP server is at %s', __file, func, url);
-    }
-  });
-
-  //  Start socket.io server
-  socketEvents.onConnection(io);
 };

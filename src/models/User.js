@@ -1,9 +1,10 @@
+'use-strict';
+
 const MONGOOSE = require('mongoose');
 const bcryptjs = require('bcryptjs');
 
-/**
- * Create a schema for the user
- */
+
+//  Create a schema for the user
 const UserSchema = new MONGOOSE.Schema({
   name: {
     type: String,
@@ -52,18 +53,16 @@ UserSchema.authenticate = function(username, password, callback) {
       });
 };
 
+//  Hash the password before saving it to the database
 UserSchema.pre('save', function(next) {
   const salt = bcryptjs.genSaltSync(10);
   const hash = bcryptjs.hashSync(this.password, salt);
   this.password = hash;
   next();
 });
-/**
- * Create the user model using the user schema
- */
+
+//  Create User model
 const User = MONGOOSE.model('User', UserSchema);
 
-/**
- * Export the user model
- */
+//  Export the User model
 module.exports = User;

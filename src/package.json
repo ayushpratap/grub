@@ -1,6 +1,6 @@
 {
   "name": "grub",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Web based notes documenting application",
   "main": "server.js",
   "private": true,

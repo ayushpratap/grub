@@ -1,7 +1,7 @@
 'use-strict';
 require('magic-globals');
 
-//  Get the router object
+//  Get the express router object
 // eslint-disable-next-line new-cap
 const router = require('express').Router();
 
@@ -23,5 +23,6 @@ router.post('/login', auth.postLogin);
 //  Setup route to handle register request
 router.post('/register', auth.postRegister);
 
+//  Export the router
 module.exports = router;
 

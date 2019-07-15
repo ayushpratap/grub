@@ -1,5 +1,6 @@
 'use-strict';
 /**
+ * @author Ayush Pratap Singh
  * @file server.js
  * @description This file is the entry point of the application
  */
@@ -8,23 +9,29 @@
 require('magic-globals');
 const express = require('express');
 const server = express();
-const dualServer = require('http').createServer(server);
+const http = require('http').createServer(server);
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
-const io = require('socket.io')(dualServer);
+const io = require('socket.io')(http);
 const favicon = require('express-favicon');
 
 //  Require application modules
-const helper = require('./middleware/helper_functions/helper');
+const helper = require('./helpers/helperFunctions');
 const gConfig = require('./config/config');
 const logger = require('./config/logger');
-const authMiddleware = require('./middleware/authMiddleware');
+const socketEvents = require('./helpers/socketEvents');
+
+//  Get the routes
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 const api = require('./routes/api');
+
+//  Get the custom middleware
+const authMiddleware = require('./middleware/authMiddleware');
+
 //  Check if session secret is set or not
 helper.checkSessionSecret();
 
@@ -91,6 +98,15 @@ db.once('open', (err)=>{
   }
   logger.info('[%s] , Connected to database', __file);
 
-  //  Start the HTTP server and socket.io server
-  helper.startServer(dualServer, io);
+  //  Start the HTTP server
+  http.listen(gConfig.port, function(err) {
+    if (err) {
+      throw err;
+    }
+    const url = `http://localhost:${gConfig.port}`;
+    logger.info(`[${__file}] , HTTP server is at ${url}`);
+  });
+
+  //  socket on connected event
+  socketEvents.onConnection(io);
 });
