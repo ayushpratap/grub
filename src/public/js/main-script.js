@@ -1,16 +1,16 @@
+/* eslint-disable require-jsdoc */
 'use-strict';
-/**
- * @name onConnect
- *
- * @param {*} client
- */
+const webSockUrl = 'http://localhost:8081';
+const client = io(webSockUrl);
+
+client.on('connect', function() {
+  onConnect(client);
+});
+
 function onConnect(client) {
   console.log('client id = ', client.id);
 }
-/**
- * @name buildUserList
- * @param {*} users
- */
+
 function buildUserList(users) {
   console.log(users);
   const list = users.list;
@@ -22,10 +22,7 @@ function buildUserList(users) {
         .append(`<div class="row"><a href="#"><span>${user}</span></a></div>`);
   });
 }
-/**
- *@name loadUserList
- *
- */
+
 function loadUserList() {
   //  Make AJAX request to the server and get the usrList
   const username = $('#username').text();
@@ -44,15 +41,4 @@ function loadUserList() {
     },
   });
 }
-$(document).ready(function() {
-  //  URL of the server where client needs to connect
-  const client = io('http://localhost:8081');
-
-  //  Listen for socket connect event
-  client.on('connect', function(socket) {
-    onConnect(client);
-  });
-
-  //  Load the user list
-  loadUserList();
-});
+loadUserList();
