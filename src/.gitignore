@@ -4,6 +4,7 @@ launch.json
 settings.json
 ../*.code-workspace
 ../.vscode
+.env
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
