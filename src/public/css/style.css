@@ -10,7 +10,7 @@
 .chat-box{
     position: relative;
     height: 500px;
-    width: 500px;
+    width: 300px;
     background-color: azure;
 }
 .chat-box-head{
