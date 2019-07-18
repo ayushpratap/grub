@@ -50,8 +50,14 @@ module.exports.postLogin = function(req, res) {
             if (true == result) {
               logger.debug(`[${FILE}] , [${FUNC}] , Password matched`);
               logger.debug(`[${FILE}] , [${FUNC}] , Setting session`);
+
+              //  Set session
               req.session.userId = user._id;
               req.session.username = user.username;
+
+              //  Set cookies
+              res.cookie(`userId`, user._id);
+              res.cookie(`username`, user.username);
               logger.debug(`[${FILE}] , [${FUNC}] , Redirecting to /main`);
               res.redirect('/api/main');
             } else {
@@ -87,6 +93,10 @@ module.exports.postRegister = function(req, res) {
       //  Set user details in the session
       req.session.userId = user._id;
       req.session.username = user.username;
+
+      // Set cookies
+      res.cookie(`userId`, user._id);
+      res.cookie(`username`, user.username);
       logger.info('[%s] , [%s] , Session set', FILE, FUNC);
       //  Redirect to the main page
       res.redirect('/api/main');
@@ -117,6 +127,8 @@ module.exports.logout = function(req, res) {
     if (err) {
       logger.error('[%s] , [%s] , [%o]', FILE, FUNC, err);
     } else {
+      res.clearCookie(`userId`);
+      res.clearCookie(`username`);
       logger.info('[%s] , [%s] , Session destroyed', FILE, FUNC);
       logger.info('[%s] , [%s] , Redirect to homepage', FILE, FUNC);
       res.redirect('/');
