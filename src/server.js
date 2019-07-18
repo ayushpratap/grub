@@ -39,13 +39,13 @@ helper.checkSessionSecret();
 helper.checkDbUrl();
 
 //  Connect to database
-mongoose.connect(gConfig.dbUrl, 
-  {useCreateIndex: true,useNewUrlParser: true,},function(err, db) {
-    if(err) {
-      logger.error(`[${__file}] , Error in connecting to database`);
-      process.exit(1);
-    }
-  });
+mongoose.connect(gConfig.dbUrl,
+    {useCreateIndex: true, useNewUrlParser: true}, function(err, db) {
+      if (err) {
+        logger.error(`[${__file}] , Error in connecting to database`);
+        process.exit(1);
+      }
+    });
 const db = gConfig.dbConnection = mongoose.connection;
 
 //  Add template engine middleware
@@ -105,6 +105,12 @@ db.once('open', (err)=>{
     logger.info(`[${__file}] , HTTP server is at ${url}`);
   });
 
+  io.use(function(socket, next) {
+    console.log('-----------------------------------');
+    console.log(socket.handshake.query);
+    console.log('-----------------------------------');
+    next();
+  });
   //  socket on connected event
   socketEvents.onConnection(io);
 });
