@@ -9,27 +9,27 @@ const UserSchema = new MONGOOSE.Schema({
   name: {
     type: String,
     required: true,
-    minlength: 5,
+    minlength: 2,
     maxlength: 50,
   },
   email: {
     type: String,
     required: true,
-    minlength: 5,
+    minlength: 2,
     maxlength: 100,
     unique: true,
   },
   username: {
     type: String,
     required: true,
-    minlength: 3,
+    minlength: 2,
     maxlength: 10,
     unique: true,
   },
   password: {
     type: String,
     required: true,
-    minlength: 5,
+    minlength: 2,
     maxlength: 20,
   },
 });

@@ -4,16 +4,22 @@
 //  Function to get username
 
 //  Read cookie
-console.log(document.cookie);
+//  console.log(document.cookie);
+const readCookie = function() {
+  const cookie = document.cookie;
+  const cookieArr = cookie.split(';');
+  const tmpArr = cookieArr[0].split('=');
+  return tmpArr[1];
+};
 $(document).ready(function() {
-  const username = $('#username').text();
-  console.log(username);
-  const webSockUrl = 'http://localhost:8081?username='+username;
+  const userId = readCookie();
+  const webSockUrl = 'http://localhost:8081?userId='+userId;
   const client = io(webSockUrl);
   client.on('connect', function() {
     onConnect(client);
     // emit auth-event
   });
+  client.emit('test', 'This is test');
   function onConnect(client) {
     console.log('client id = ', client.id);
   }

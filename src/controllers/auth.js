@@ -50,13 +50,13 @@ module.exports.postLogin = function(req, res) {
             if (true == result) {
               logger.debug(`[${FILE}] , [${FUNC}] , Password matched`);
               logger.debug(`[${FILE}] , [${FUNC}] , Setting session`);
-
+              const _id = (user._id).toString();
               //  Set session
-              req.session.userId = user._id;
+              req.session.userId = _id;
               req.session.username = user.username;
 
               //  Set cookies
-              res.cookie(`userId`, user._id);
+              res.cookie(`userId`, _id);
               res.cookie(`username`, user.username);
               logger.debug(`[${FILE}] , [${FUNC}] , Redirecting to /main`);
               res.redirect('/api/main');
