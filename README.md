@@ -56,3 +56,10 @@ Grub
 └─ TODO
 
 ```
+## Concepts to study
+- _**Socket Programming**_
+- _**NodeJs**_
+- _**MongoDB**_
+- _**Scoket.io**_
+- _**Pug HTML engine**_
+- _**Express**_
